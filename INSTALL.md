@@ -14,36 +14,41 @@
 
 ## Windows (PowerShell) 설치
 
-### 1단계: 폴더 생성 및 파일 복사
+### 1단계: 저장소 클론
 
 ```powershell
-# tools 폴더 생성
-mkdir $HOME\tools -Force
-
-# vbg.py 복사 (현재 위치에 vbg.py가 있다고 가정)
-Copy-Item ".\vbg.py" "$HOME\tools\vbg.py"
-
-# 또는 직접 경로 지정
-Copy-Item "C:\Users\ghjan\Desktop\geoni\Vibe-Guardian\vbg.py" "$HOME\tools\vbg.py"
+cd C:\Users\YOUR_USERNAME\Desktop
+git clone https://github.com/janggeonhee/Vibe-Guardian.git
 ```
 
 ### 2단계: PowerShell 프로필에 함수 추가
 
 ```powershell
-# 프로필에 vbg 함수 추가 (줄바꿈 포함)
-Add-Content $PROFILE "`nfunction vbg { python `"$HOME\tools\vbg.py`" `$args }"
+# 프로필 열기
+notepad $PROFILE
 
-# 프로필 새로고침
+# 아래 내용 추가 (경로는 본인에 맞게 수정)
+function vbg { python "C:\Users\YOUR_USERNAME\Desktop\Vibe-Guardian\vbg.py" $args }
+```
+
+또는 명령어로 추가:
+```powershell
+Add-Content $PROFILE "`nfunction vbg { python `"C:\Users\YOUR_USERNAME\Desktop\Vibe-Guardian\vbg.py`" `$args }"
+```
+
+### 3단계: 프로필 새로고침
+
+```powershell
 . $PROFILE
 ```
 
-### 3단계: 의존성 설치
+### 4단계: 의존성 설치
 
 ```powershell
 pip install psutil
 ```
 
-### 4단계: 설치 확인
+### 5단계: 설치 확인
 
 ```powershell
 vbg --version
@@ -52,107 +57,56 @@ vbg --usage
 
 ---
 
-## macOS / Linux (zsh/bash) 설치
+## macOS / Linux 설치
 
-### 방법 A: GitHub에서 설치 (권장)
+### 방법 A: GitHub에서 클론 (권장)
 
 ```bash
-# 1. 저장소 클론 (GitHub에 올린 경우)
-git clone https://github.com/YOUR_USERNAME/Vibe-Guardian.git
-cd Vibe-Guardian
+# 1. 저장소 클론
+cd ~/Desktop
+git clone https://github.com/janggeonhee/Vibe-Guardian.git
 
-# 2. tools 폴더에 복사
-mkdir -p ~/tools
-cp vbg.py ~/tools/vbg.py
+# 2. 실행 권한 부여
+chmod +x ~/Desktop/Vibe-Guardian/vbg.py
 
-# 3. 실행 권한 부여
-chmod +x ~/tools/vbg.py
-
-# 4. alias 추가 (zsh)
-echo 'alias vbg="python3 ~/tools/vbg.py"' >> ~/.zshrc
+# 3. alias 추가 (zsh)
+echo 'alias vbg="python3 ~/Desktop/Vibe-Guardian/vbg.py"' >> ~/.zshrc
 source ~/.zshrc
 
-# 4-1. alias 추가 (bash 사용시)
-echo 'alias vbg="python3 ~/tools/vbg.py"' >> ~/.bashrc
+# 3-1. bash 사용시
+echo 'alias vbg="python3 ~/Desktop/Vibe-Guardian/vbg.py"' >> ~/.bashrc
 source ~/.bashrc
 
-# 5. 의존성 설치
+# 4. 의존성 설치
 pip3 install psutil
+
+# 5. 확인
+vbg --version
 ```
 
-### 방법 B: 파일 직접 생성
+### 방법 B: 다른 위치에 설치
 
 ```bash
-# 1. tools 폴더 생성
-mkdir -p ~/tools
+# 원하는 위치에 클론
+git clone https://github.com/janggeonhee/Vibe-Guardian.git ~/tools/Vibe-Guardian
 
-# 2. 파일 생성 (복사/붙여넣기)
-nano ~/tools/vbg.py
-# 또는
-code ~/tools/vbg.py
-
-# (vbg.py 내용을 붙여넣고 저장)
-
-# 3. 실행 권한 부여
-chmod +x ~/tools/vbg.py
-
-# 4. alias 추가
-echo 'alias vbg="python3 ~/tools/vbg.py"' >> ~/.zshrc
+# alias 설정 (경로 맞게 수정)
+echo 'alias vbg="python3 ~/tools/Vibe-Guardian/vbg.py"' >> ~/.zshrc
 source ~/.zshrc
-
-# 5. 의존성 설치
-pip3 install psutil
-```
-
-### 방법 C: 클라우드/USB로 파일 전송
-
-```bash
-# Google Drive, Dropbox, iCloud 등에서 다운로드 후:
-mkdir -p ~/tools
-cp ~/Downloads/vbg.py ~/tools/vbg.py
-chmod +x ~/tools/vbg.py
-
-echo 'alias vbg="python3 ~/tools/vbg.py"' >> ~/.zshrc
-source ~/.zshrc
-
-pip3 install psutil
 ```
 
 ---
 
-## Windows ↔ Mac 파일 전송 방법
+## 업데이트 방법
 
-### 1. GitHub 사용 (권장)
+개발 폴더를 직접 사용하므로 git pull만 하면 됩니다:
 
-**Windows에서:**
-```powershell
-cd C:\Users\ghjan\Desktop\geoni\Vibe-Guardian
-git init
-git add vbg.py vbg_config.json INSTALL.md
-git commit -m "Initial VBG setup"
-git remote add origin https://github.com/YOUR_USERNAME/Vibe-Guardian.git
-git push -u origin main
-```
-
-**Mac에서:**
 ```bash
-git clone https://github.com/YOUR_USERNAME/Vibe-Guardian.git
+cd ~/Desktop/Vibe-Guardian   # 또는 설치 경로
+git pull
 ```
 
-### 2. 클라우드 스토리지
-
-- Google Drive / Dropbox / OneDrive / iCloud에 `vbg.py` 업로드
-- Mac에서 다운로드
-
-### 3. 이메일로 전송
-
-- `vbg.py` 파일을 자신에게 이메일로 전송
-- Mac에서 다운로드
-
-### 4. USB 드라이브
-
-- Windows에서 USB에 복사
-- Mac에서 USB 연결 후 복사
+복사 작업 불필요!
 
 ---
 
@@ -172,10 +126,7 @@ vbg --help
 ### 정상 출력 예시
 
 ```
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║   VBG v1.0                                                                    ║
-║   Vibe Guardian - AI Cross-Check Automation System                            ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
+VBG v1.2.0
 
 AI Models Status:
   Claude:      ✓ Available
@@ -191,19 +142,14 @@ AI Models Status:
 
 **Windows:**
 ```powershell
-# python3 대신 python 사용 확인
 python --version
-
 # 안 되면 Python 재설치 또는 PATH 확인
 ```
 
 **Mac:**
 ```bash
-# python3 사용
 python3 --version
-
-# alias에서 python3으로 변경
-alias vbg="python3 ~/tools/vbg.py"
+# alias에서 python3 사용 확인
 ```
 
 ### "psutil 모듈 없음" 에러
@@ -216,7 +162,7 @@ pip3 install psutil   # Mac/Linux
 ### "권한 거부" 에러 (Mac/Linux)
 
 ```bash
-chmod +x ~/tools/vbg.py
+chmod +x ~/Desktop/Vibe-Guardian/vbg.py
 ```
 
 ### alias가 작동하지 않음
@@ -234,16 +180,16 @@ source ~/.bashrc
 # 또는 터미널 완전히 닫고 다시 열기
 ```
 
----
+### oh-my-posh 관련 에러 (Windows)
 
-## 설정 파일 위치
+VBG와 무관한 에러입니다. 해결하려면:
+```powershell
+# PSReadLine 업데이트
+Install-Module PSReadLine -Force -SkipPublisherCheck
 
-| 파일 | 설명 |
-|------|------|
-| `~/tools/vbg.py` | 메인 스크립트 |
-| `./vbg_config.json` | 프로젝트별 설정 (실행 디렉토리) |
-| `./vbg_plan.md` | 생성된 계획서 |
-| `./.vbg_reports/` | 성능 리포트 저장 |
+# 또는 oh-my-posh 업데이트
+winget upgrade JanDeDobbeleer.OhMyPosh
+```
 
 ---
 
@@ -259,3 +205,4 @@ source ~/.bashrc
 | `vbg "질문"` | 코드 분석 Q&A |
 | `vbg --usage` | 사용량 확인 |
 | `vbg --init` | 설정 초기화 |
+| `vbg --version` | 버전 확인 |

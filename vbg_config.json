@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "2.1.0",
   "ai_models": {
     "claude": {
       "enabled": true,
@@ -20,6 +20,10 @@
     "enabled": true,
     "command": "antigravity",
     "auto_setup": true
+  },
+  "execution": {
+    "parallel": true,
+    "include_antigravity_in_parallel": false
   },
   "benchmarking": {
     "enabled": true,
