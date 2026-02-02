@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "ai_models": {
+    "claude": {
+      "enabled": true,
+      "command": "claude",
+      "role": "builder",
+      "max_retries": 3,
+      "timeout": 300
+    },
+    "gemini": {
+      "enabled": true,
+      "command": "gemini",
+      "role": "auditor",
+      "max_retries": 3,
+      "timeout": 300
+    }
+  },
+  "antigravity": {
+    "enabled": true,
+    "command": "antigravity",
+    "auto_setup": true
+  },
+  "benchmarking": {
+    "enabled": true,
+    "iterations": 3,
+    "warmup_iterations": 1,
+    "timeout": 60
+  },
+  "fallback": {
+    "enabled": true,
+    "max_self_heal_attempts": 3,
+    "switch_on_token_exhaustion": true
+  },
+  "output": {
+    "verbose": true,
+    "save_reports": true,
+    "report_dir": ".vbg_reports",
+    "colorize": true
+  },
+  "project_detection": {
+    "auto_detect": true,
+    "exclude_dirs": [
+      ".git",
+      "node_modules",
+      "__pycache__",
+      ".venv",
+      "venv",
+      "target",
+      "build",
+      ".next",
+      "dist"
+    ]
+  }
+}
